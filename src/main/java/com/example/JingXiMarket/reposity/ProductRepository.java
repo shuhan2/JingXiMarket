@@ -1,4 +1,4 @@
 package com.example.JingXiMarket.reposity;
 
-public class Product {
+public interface Product {
 }

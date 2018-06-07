@@ -14,15 +14,19 @@ public class Order {
     private Long quantity;
     private Long totalPrice;
     private String status;
+    private String buyer;
     private OrderTime time;
+    private Express express;
 
-    public Order(Long id,Long productId, Long quantity, Long totalPrice, String status, OrderTime time) {
+    public Order(Long id,Long productId, Long quantity, Long totalPrice, String status, String buyer,OrderTime time,Express express) {
         this.Id = id;
         this.productId = productId;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.status = status;
+        this.buyer = buyer;
         this.time = time;
+        this.express = express;
     }
 
     public Long getId() {
@@ -64,7 +68,13 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
+    public String getBuyer() {
+        return buyer;
+    }
 
+    public void setBuyer(String buyer) {
+        this.buyer = buyer;
+    }
     public OrderTime getTime() {
         return time;
     }
@@ -72,7 +82,13 @@ public class Order {
     public void setTime(OrderTime time) {
         this.time = time;
     }
+    public Express getExpress() {
+        return express;
+    }
 
+    public void setExpress(Express express) {
+        this.express = express;
+    }
 
 
 

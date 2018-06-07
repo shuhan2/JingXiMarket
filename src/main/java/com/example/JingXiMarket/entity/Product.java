@@ -16,8 +16,10 @@ public class Product {
     private Long singlePrice;
     private Long quantity;
 
-    public Product(String name, String description, Long singlePrice, Long quantity) {
+    public Product(Long id,String name, String description, Long singlePrice, Long quantity) {
+        this.id = id;
         this.name = name;
+
         this.description = description;
         this.singlePrice = singlePrice;
         this.quantity = quantity;

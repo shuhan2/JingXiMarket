@@ -1,0 +1,4 @@
+package com.example.JingXiMarket.reposity;
+
+public interface ReserveRepository {
+}

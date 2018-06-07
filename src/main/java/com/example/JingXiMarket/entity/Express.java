@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Express {
@@ -12,22 +13,20 @@ public class Express {
     private Long Id;
     private Long productId;
     private Long quantity;
-    private String address;
+    private List<ExpressHalfway> halfway;
     private String status;
     private Date time;
-    private String buyers;
-
-
-
+    private String buyer;
     private String courier;
 
-    public Express(Long id,Long productId, Long quantity, String address, String status, Date time) {
+    public Express(Long id,Long productId, Long quantity, List<ExpressHalfway> halfway, String status, Date time,String buyer,String courier) {
         this.Id =id;
         this.productId = productId;
         this.quantity = quantity;
-        this.address = address;
+        this.halfway = halfway;
         this.status = status;
         this.time = time;
+        this.buyer = buyer;
     }
 
     public Long getId() {
@@ -54,12 +53,12 @@ public class Express {
         this.quantity = quantity;
     }
 
-    public String getAddress() {
-        return address;
+    public List<ExpressHalfway> getAddress() {
+        return halfway;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddress(List<ExpressHalfway> halfway) {
+        this.halfway = halfway;
     }
 
     public String getStatus() {
@@ -78,11 +77,11 @@ public class Express {
         this.time = time;
     }
     public String getBuyers() {
-        return buyers;
+        return buyer;
     }
 
-    public void setBuyers(String buyers) {
-        this.buyers = buyers;
+    public void setBuyers(String buyer) {
+        this.buyer = buyer;
     }
 
     public String getCourier() {

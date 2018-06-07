@@ -5,11 +5,8 @@ import java.util.Date;
 public class OrderTime {
     private Date createTime;
     private Date payTime;
-
-
-
     private Date cancelTime;
-
+    private Date finishTime;
     public Date getCreateTime() {
         return createTime;
     }
