@@ -2,6 +2,7 @@ package com.example.JingXiMarket.entity;
 
 public class Reserve {
     private Long productId;
+    private String productName;
     private Long quantity;
     public Reserve(){
 
@@ -17,6 +18,14 @@ public class Reserve {
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Long getQuantity() {
