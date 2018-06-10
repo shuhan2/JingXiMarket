@@ -1,27 +1,35 @@
 package com.example.JingXiMarket.entity;
 
-import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.util.Date;
+@Entity
 public class ExpressHalfway {
-    private Long expressId;
+//    private Long expressId;
+@Id
+@GeneratedValue
     private String address;
     private Date time;
     private String status;
 
-    public ExpressHalfway(Long expressId, String address, Date time, String status) {
-        this.expressId = expressId;
+    public ExpressHalfway(String address, Date  time, String status) {
+//        this.expressId = expressId;
         this.address = address;
         this.time = time;
         this.status = status;
     }
+    public ExpressHalfway(){
 
-    public Long getExpressId() {
-        return expressId;
     }
+//    public Long getExpressId() {
+//        return expressId;
+//    }
 
-    public void setExpressId(Long expressId) {
-        this.expressId = expressId;
-    }
+//    public void setExpressId(Long expressId) {
+//        this.expressId = expressId;
+//    }
 
     public String getAddress() {
         return address;
@@ -31,11 +39,11 @@ public class ExpressHalfway {
         this.address = address;
     }
 
-    public Date getTime() {
+    public Date  getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Date  time) {
         this.time = time;
     }
 

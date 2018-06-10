@@ -1,10 +1,10 @@
 package com.example.JingXiMarket.Enum;
 
 public enum expressEnum {
-    CREATE(1,"create"),
-    TRANSPORT(2,"transport"),
-    SIGN(3,"sign"),
-    INVALID(5,"invalid");
+    CREATE(1,"CREATE"),
+    TRANSPORT(2,"TRANSPORT"),
+    SIGN(3,"SIGN"),
+    INVALID(5,"INVALID");
     private int expressStatusId;
     private String expressStatus;
     public int getExpressStatusId() {

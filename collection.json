@@ -11,7 +11,7 @@
 			"name": "product",
 			"description": "product API",
 			"item": [
-				{
+				{=
 					"name": "创建新商品",
 					"event": [
 						{

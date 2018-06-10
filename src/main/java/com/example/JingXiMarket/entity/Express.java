@@ -1,32 +1,37 @@
 package com.example.JingXiMarket.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Express {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private Long productId;
+    private String productName;
     private Long quantity;
+    @Transient
     private List<ExpressHalfway> halfway;
     private String status;
-    private Date time;
+//    private Date time;
     private String buyer;
     private String courier;
+    @OneToOne
+    @JoinColumn(name = "id")
+    private Order order;
 
-    public Express(Long id,Long productId, Long quantity, List<ExpressHalfway> halfway, String status, Date time,String buyer,String courier) {
+    public Express(Long id,Long productId, String productName,Long quantity, List<ExpressHalfway> halfway, String status, String buyer,String courier) {
         this.Id =id;
         this.productId = productId;
+        this.productName = productName;
         this.quantity = quantity;
         this.halfway = halfway;
         this.status = status;
-        this.time = time;
+
         this.buyer = buyer;
+        this.courier = courier;
     }
 
     public Long getId() {
@@ -45,6 +50,16 @@ public class Express {
         this.productId = productId;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+
+
     public Long getQuantity() {
         return quantity;
     }
@@ -53,11 +68,11 @@ public class Express {
         this.quantity = quantity;
     }
 
-    public List<ExpressHalfway> getAddress() {
+    public List<ExpressHalfway> getHalfway() {
         return halfway;
     }
 
-    public void setAddress(List<ExpressHalfway> halfway) {
+    public void setHalfway(List<ExpressHalfway> halfway) {
         this.halfway = halfway;
     }
 
@@ -69,21 +84,22 @@ public class Express {
         this.status = status;
     }
 
-    public Date getTime() {
-        return time;
-    }
 
-    public void setTime(Date time) {
-        this.time = time;
-    }
-    public String getBuyers() {
+    public String getBuyer() {
         return buyer;
     }
 
-    public void setBuyers(String buyer) {
+    public void setBuyer(String buyer) {
         this.buyer = buyer;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
     public String getCourier() {
         return courier;
     }

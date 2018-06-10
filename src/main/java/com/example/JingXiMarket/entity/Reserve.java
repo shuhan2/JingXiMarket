@@ -1,6 +1,13 @@
 package com.example.JingXiMarket.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Reserve {
+    @Id
+    @GeneratedValue
     private Long productId;
     private String productName;
     private Long quantity;

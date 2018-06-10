@@ -3,6 +3,7 @@ package com.example.JingXiMarket.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.security.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -11,22 +12,33 @@ public class Order {
     @GeneratedValue
     private Long Id;
     private Long productId;
+    private String productName;
     private Long quantity;
     private Long totalPrice;
     private String status;
     private String buyer;
-    private OrderTime time;
-    private Express express;
+//    private OrderTime time;
+    private Date  createTime;
+    private Date  payTime;
+    private Date  cancelTime;
+    private Date finishTime;
+    private String address;
+//    private Express express;
 
-    public Order(Long id,Long productId, Long quantity, Long totalPrice, String status, String buyer,OrderTime time,Express express) {
+    public Order(Long id,Long productId, String productName,Long quantity, Long totalPrice, String status, String buyer,Date  createTime,Date  payTime,Date  cancelTime,Date  finishTime,String address) {
         this.Id = id;
         this.productId = productId;
+        this.productName = productName;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.status = status;
         this.buyer = buyer;
-        this.time = time;
-        this.express = express;
+        this.createTime = createTime;
+        this.payTime = payTime;
+        this.cancelTime = cancelTime;
+        this.finishTime = finishTime;
+        this.address = address;
+//        this.express = express;
     }
 
     public Long getId() {
@@ -45,6 +57,13 @@ public class Order {
         this.productId = productId;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
     public Long getQuantity() {
         return quantity;
     }
@@ -75,20 +94,52 @@ public class Order {
     public void setBuyer(String buyer) {
         this.buyer = buyer;
     }
-    public OrderTime getTime() {
-        return time;
+    public Date  getCreateTime() {
+        return createTime;
     }
 
-    public void setTime(OrderTime time) {
-        this.time = time;
-    }
-    public Express getExpress() {
-        return express;
+    public void setCreateTime(Date  createTime) {
+        this.createTime = createTime;
     }
 
-    public void setExpress(Express express) {
-        this.express = express;
+    public Date  getPayTime() {
+        return payTime;
     }
+
+    public void setPayTime(Date  payTime) {
+        this.payTime = payTime;
+    }
+
+    public Date  getCancelTime() {
+        return cancelTime;
+    }
+
+    public void setCancelTime(Date  cancelTime) {
+        this.cancelTime = cancelTime;
+    }
+
+    public Date  getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date  finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+//    public Express getExpress() {
+//        return express;
+//    }
+//
+//    public void setExpress(Express express) {
+//        this.express = express;
+//    }
 
 
 
