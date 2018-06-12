@@ -7,17 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
-    //查询名字是*的product
-
-    //查询Id是*的product
-//    Product findById(Long Id);
-    //addproduct
 //模糊查询
-
-    Product findByNameAndDescriptionLike(String name,String description);
+@Query(value = "select * from Product where name like %?1% and description like %?2%",nativeQuery = true)
+List<Product> findByNameAndDescriptionLike(String name, String description);
     //新增
+    Product findByProductName(String name);
 
 
 

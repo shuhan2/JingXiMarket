@@ -9,6 +9,9 @@ import java.util.Date;
 public class ExpressHalfway {
 //    private Long expressId;
 @Id
+
+
+
 @GeneratedValue
     private String address;
     private Date time;

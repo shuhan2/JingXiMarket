@@ -7,7 +7,7 @@ import java.security.Timestamp;
 import java.util.Date;
 
 @Entity
-public class Order {
+public class Orders {
     @Id
     @GeneratedValue
     private Long Id;
@@ -17,15 +17,21 @@ public class Order {
     private Long totalPrice;
     private String status;
     private String buyer;
-//    private OrderTime time;
+
     private Date  createTime;
     private Date  payTime;
     private Date  cancelTime;
     private Date finishTime;
-    private String address;
-//    private Express express;
 
-    public Order(Long id,Long productId, String productName,Long quantity, Long totalPrice, String status, String buyer,Date  createTime,Date  payTime,Date  cancelTime,Date  finishTime,String address) {
+    private String address;
+
+
+
+    private Express express;
+    public Orders(){
+
+    }
+    public Orders(Long id, Long productId, String productName, Long quantity, Long totalPrice, String status, String buyer, Date  createTime, Date  payTime, Date  cancelTime, Date  finishTime, String address,Express express) {
         this.Id = id;
         this.productId = productId;
         this.productName = productName;
@@ -38,7 +44,7 @@ public class Order {
         this.cancelTime = cancelTime;
         this.finishTime = finishTime;
         this.address = address;
-//        this.express = express;
+        this.express = express;
     }
 
     public Long getId() {
@@ -133,13 +139,13 @@ public class Order {
     public void setAddress(String address) {
         this.address = address;
     }
-//    public Express getExpress() {
-//        return express;
-//    }
-//
-//    public void setExpress(Express express) {
-//        this.express = express;
-//    }
+    public Express getExpress() {
+        return express;
+    }
+
+    public void setExpress(Express express) {
+        this.express = express;
+    }
 
 
 

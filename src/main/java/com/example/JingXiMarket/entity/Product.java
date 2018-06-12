@@ -11,14 +11,16 @@ public class Product {
     @Id
     @GeneratedValue
     private Long id;
-    private String name;
+    private String productName;
     private String description;
     private Long singlePrice;
     private Long quantity;
+    public Product(){
 
+    }
     public Product(Long id,String name, String description, Long singlePrice, Long quantity) {
         this.id = id;
-        this.name = name;
+        this.productName = name;
 
         this.description = description;
         this.singlePrice = singlePrice;
@@ -34,11 +36,11 @@ public class Product {
     }
 
     public String getName() {
-        return name;
+        return productName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.productName = name;
     }
 
     public String getDescription() {

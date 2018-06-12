@@ -18,9 +18,9 @@ public class Express {
 //    private Date time;
     private String buyer;
     private String courier;
-    @OneToOne
-    @JoinColumn(name = "id")
-    private Order order;
+//    @OneToOne
+//    @JoinColumn(name = "id")
+//    private Orders order;
 
     public Express(Long id,Long productId, String productName,Long quantity, List<ExpressHalfway> halfway, String status, String buyer,String courier) {
         this.Id =id;
@@ -93,13 +93,13 @@ public class Express {
         this.buyer = buyer;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+//    public Orders getOrder() {
+//        return order;
+//    }
+//
+//    public void setOrder(Orders order) {
+//        this.order = order;
+//    }
     public String getCourier() {
         return courier;
     }

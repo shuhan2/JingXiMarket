@@ -1,22 +1,17 @@
 package com.example.JingXiMarket.service;
 
-import com.example.JingXiMarket.NotFoundEx;
-import com.example.JingXiMarket.entity.Express;
-import com.example.JingXiMarket.entity.ExpressHalfway;
-import com.example.JingXiMarket.entity.Product;
-import com.example.JingXiMarket.entity.Reserve;
+import com.example.JingXiMarket.entity.*;
+import com.example.JingXiMarket.exception.NotFoundEx;
 import com.example.JingXiMarket.reposity.ExpressRepository;
+import com.example.JingXiMarket.reposity.OrderRepository;
 import com.example.JingXiMarket.reposity.ProductRepository;
 import com.example.JingXiMarket.reposity.ReserveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.security.Timestamp;
-import java.security.cert.CertPath;
 import java.util.Date;
 import java.util.List;
 
@@ -24,8 +19,21 @@ import java.util.List;
 public class ExpressService {
     @Autowired
     ExpressRepository expressRepository;
+    @Autowired
     ReserveRepository reserveRepository;
+    @Autowired
     ProductRepository productRepository;
+    @Autowired
+    OrderRepository orderRepository;
+    //getAll
+    @GetMapping
+    public List<Express> getAllExpress(){
+        return expressRepository.findAll();
+    }
+    @GetMapping()
+    public Express findExpressById(@RequestBody long id){
+        return expressRepository.findById(id).get();
+    }
     //send
     @PostMapping()
     public Express sendProduct(@RequestBody Long id){
@@ -42,21 +50,25 @@ public class ExpressService {
         throw  new NotFoundEx(id,"express");
     }
 //check
-    @GetMapping()
-    public Express checkExpress(@RequestBody long id){
-       return expressRepository.findById(id).get();
-    }
+
     //Sign
     public Express signExpress(@RequestBody long id) {
         Express express = expressRepository.findById(id).get();
         if (express != null) {
             express.setStatus("sign");
-            Reserve reserve = reserveRepository.findById(id).get();
+            //库存
+            Reserve reserve = reserveRepository.findByProductId(express.getProductId());
             reserve.setQuantity(reserve.getQuantity()-express.getQuantity());
             reserveRepository.save(reserve);
+            //货物库存
             Product product = productRepository.findById(id).get();
             product.setQuantity(reserve.getQuantity());
             productRepository.save(product);
+            //订单
+            Orders order = orderRepository.findByProductId(express.getProductId());
+            order.setStatus("FINISH");
+            order.setExpress(express);
+            orderRepository.save(order);
             return expressRepository.save(express);
         }
         throw  new NotFoundEx(id,"express");
