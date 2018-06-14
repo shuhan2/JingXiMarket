@@ -1,14 +1,12 @@
 package com.example.JingXiMarket.service;
 
-import com.example.JingXiMarket.entity.Product;
+import com.example.JingXiMarket.entity.*;
 import com.example.JingXiMarket.exception.NotFoundEx;
-import com.example.JingXiMarket.entity.Express;
-import com.example.JingXiMarket.entity.ExpressHalfway;
-import com.example.JingXiMarket.entity.Orders;
 import com.example.JingXiMarket.exception.OrderCreateEx;
 import com.example.JingXiMarket.reposity.ExpressRepository;
 import com.example.JingXiMarket.reposity.OrderRepository;
 import com.example.JingXiMarket.reposity.ProductRepository;
+import com.example.JingXiMarket.reposity.ReserveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +24,10 @@ public class OrderService {
     ExpressRepository expressRepository;
     @Autowired
     ProductRepository productRepository;
-
+    @Autowired
+    ReserveRepository reserveRepository;
+    @Autowired
+    ExpressService expressService;
     int index = 10;
     int indexe = 0;
 
@@ -64,8 +65,9 @@ public class OrderService {
     //create
     public Orders createOrder(@PathVariable("buyer")String buyer, @PathVariable("productId")long productId, @PathVariable("quantity")long quantity)  {
         Orders order = new Orders();
-        if (productRepository.findById(productId).get()!=null) {
-            if (quantity > productRepository.findById(productId).get().getQuantity()){
+        Product product = productRepository.findById(productId);
+        if (product!=null) {
+            if (quantity > product.getQuantity()){
                 throw   new OrderCreateEx("quantity can't more than product's reserve");
             }
             Date time = new Date();
@@ -73,12 +75,13 @@ public class OrderService {
             order.setId((long) ++index);
             order.setProductId(productId);
 
-            order.setProductName(productRepository.findById(productId).get().getName());
+            String productName = product.getProductName();
+            order.setProductName(productName);
             order.setBuyer(buyer);
             order.setQuantity(quantity);
             order.setAddress("Wuh");
             order.setStatus("CREATED");
-            order.setTotalPrice(productRepository.findById(productId).get().getSinglePrice() * quantity);
+            order.setTotalPrice(product.getSinglePrice() * quantity);
 
             return orderRepository.save(order);
         }
@@ -87,60 +90,57 @@ public class OrderService {
     }
 
     //find
-    public Orders checkOrderById(@RequestBody Long id){
+    public Orders checkOrderById(@PathVariable Long id){
         return  orderRepository.findById(id).get();
     }
-    public List<Orders> checkOrdersByName(@RequestBody String buyer){
+    public List<Orders> checkOrdersByName(@PathVariable String buyer){
         return orderRepository.findByBuyer(buyer);
     }
-//pay order
-    public String paidOrder(@RequestBody long id){
+    //update order
+    public String updateOrderStatus(@PathVariable Long id,@PathVariable String status){
         Orders orders = orderRepository.findById(id).get();
+        Product product = productRepository.findById(orders.getProductId()).get();
+        Reserve reserve = reserveRepository.findByProductId(orders.getProductId());
         if(orders !=null){
-            orders.setStatus("paid");
-            orderRepository.modifyById("paid",id);
-            Express express = new Express();
-            express.setId(array[index++]);
-            express.setProductId(orders.getProductId());
-            express.setProductName(orders.getProductName());
-            ExpressHalfway expressHalfway = new ExpressHalfway();
-            Date date = new Date();
-            expressHalfway.setTime(date);
-            expressHalfway.setStatus("CREATE");
-            expressHalfway.setAddress(orders.getAddress());
-            List<ExpressHalfway> expressHalfwayList = new ArrayList<ExpressHalfway>();
-            expressHalfwayList.add(expressHalfway);
-            express.setHalfway(expressHalfwayList);
-            express.setQuantity(orders.getQuantity());
-            orders.setExpress(express);
-            orderRepository.save(orders);
-            expressRepository.save(express);
-            return "pay success";
+            if (status.equals("paid")) {
+                orders.setStatus("PAID");
+                orderRepository.save(orders);
+                Express express = new Express();
+
+                express.setProductId(orders.getProductId());
+                express.setProductName(orders.getProductName());
+                ExpressHalfway expressHalfway = new ExpressHalfway();
+                Date date = new Date();
+                expressHalfway.setTime(date);
+                expressHalfway.setStatus("CREATE");
+                expressHalfway.setAddress(orders.getAddress());
+                List<ExpressHalfway> expressHalfwayList = new ArrayList<ExpressHalfway>();
+                expressHalfwayList.add(expressHalfway);
+                express.setHalfway(expressHalfwayList);
+                express.setQuantity(orders.getQuantity());
+                express.setBuyer(orders.getBuyer());
+                express.setStatus("NotSetOut");
+                express.setCourier("Tony");
+//            orders.setExpress(express);
+
+                expressService.createExpress(express);
+                return "pay success";
+            }
+            else if(status.equals("undo")){
+                orders.setStatus("undo");
+                orderRepository.save(orders);
+                return "undo success";
+            }
+
+            else{
+                throw new OrderCreateEx("status is not valid");
+            }
         }
         throw   new NotFoundEx(id,"orders");
     }
     //
-    public  String undoOrder(@RequestBody long id){
-        Orders orders = orderRepository.findById(id).get();
-        if (orders !=null){
-            orders.setExpress(null);
-            orders.setStatus("undo");
-            orderRepository.save(orders);
 
-            return "undo success";
-        }
-        throw   new NotFoundEx(id,"orders");
 
-    }
-    public  String finishOrder(@RequestBody long id){
-        Orders orders = orderRepository.findById(id).get();
-        if (orders !=null){
-
-            orderRepository.modifyById("finish",id);
-            return "finish success";
-        }
-        throw   new NotFoundEx(id,"orders");
-    }
 
 
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/reserve")
+@RequestMapping(value = "/inventories")
 public class ReserveControl {
     @Autowired
     ReserveService reserveService;

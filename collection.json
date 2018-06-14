@@ -11,7 +11,7 @@
 			"name": "product",
 			"description": "product API",
 			"item": [
-				{=
+				{
 					"name": "创建新商品",
 					"event": [
 						{
@@ -59,7 +59,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{IP}}:{{port}}/products/1",
+						"url": "http://{{IP}}:{{port}}/new/1",
 						"method": "PUT",
 						"header": [
 							{

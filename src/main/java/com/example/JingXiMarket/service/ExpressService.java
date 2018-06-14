@@ -6,12 +6,12 @@ import com.example.JingXiMarket.reposity.ExpressRepository;
 import com.example.JingXiMarket.reposity.OrderRepository;
 import com.example.JingXiMarket.reposity.ProductRepository;
 import com.example.JingXiMarket.reposity.ReserveRepository;
+import javassist.expr.Expr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,51 +30,64 @@ public class ExpressService {
     public List<Express> getAllExpress(){
         return expressRepository.findAll();
     }
-    @GetMapping()
-    public Express findExpressById(@RequestBody long id){
+    @GetMapping
+    public Express findExpressById(@PathVariable long id){
         return expressRepository.findById(id).get();
     }
+    //create
+    public Express createExpress(@PathVariable Express express){
+        return expressRepository.save(express);
+    }
     //send
-    @PostMapping()
-    public Express sendProduct(@RequestBody Long id){
+    public String updateExpressStatus(@PathVariable Long id, @PathVariable String status){
         Express express = expressRepository.findById(id).get();
         if (express!=null){
-            ExpressHalfway expressHalfway = new ExpressHalfway();
-            expressHalfway.setStatus("SEND");
-            Date  time = new Date();
-            expressHalfway.setTime(time);
-            expressHalfway.setAddress(express.getHalfway().get(0).getAddress());
-            express.setHalfway(express.getHalfway());
-            return expressRepository.save(express);
+            if (status.equals("send")){
+
+                ExpressHalfway expressHalfway = new ExpressHalfway();
+                expressHalfway.setStatus("SEND");
+                Date  time = new Date();
+                expressHalfway.setTime(time);
+                //??
+                String address = "ChangS";
+                expressHalfway.setAddress(address);
+                List<ExpressHalfway> list = new ArrayList<>();
+                list.add(expressHalfway);
+                express.setHalfway(list);
+                expressRepository.save(express);
+                return "Send Success";
+            }
+            else if(status.equals("sign")){
+                express.setStatus("sign");
+                //库存
+//                Reserve reserve = reserveRepository.findByProductId(express.getProductId());
+//                reserve.setQuantity(reserve.getQuantity()-express.getQuantity());
+//                reserveRepository.save(reserve);
+//                //货物库存
+//                Product product = productRepository.findById(id).get();
+//                product.setQuantity(reserve.getQuantity());
+//                productRepository.save(product);
+                //订单
+                Long expressId = express.getOrderId();
+                Orders order = orderRepository.findByExpressId(expressId);
+                order.setStatus("FINISH");
+//            order.setExpress(express);
+                orderRepository.save(order);
+                expressRepository.save(express);
+                return "Sign Success";
+            }
+            else{
+                return "fail";
+            }
         }
         throw  new NotFoundEx(id,"express");
     }
+
 //check
 
-    //Sign
-    public Express signExpress(@RequestBody long id) {
-        Express express = expressRepository.findById(id).get();
-        if (express != null) {
-            express.setStatus("sign");
-            //库存
-            Reserve reserve = reserveRepository.findByProductId(express.getProductId());
-            reserve.setQuantity(reserve.getQuantity()-express.getQuantity());
-            reserveRepository.save(reserve);
-            //货物库存
-            Product product = productRepository.findById(id).get();
-            product.setQuantity(reserve.getQuantity());
-            productRepository.save(product);
-            //订单
-            Orders order = orderRepository.findByProductId(express.getProductId());
-            order.setStatus("FINISH");
-            order.setExpress(express);
-            orderRepository.save(order);
-            return expressRepository.save(express);
-        }
-        throw  new NotFoundEx(id,"express");
-    }
+
     //update
-    public Express updateExpress(@RequestBody long id, ExpressHalfway transport){
+    public Express updateExpress(@PathVariable long id, ExpressHalfway transport){
         Express express = expressRepository.findById(id).get();
         if (express != null) {
             express.getHalfway().add(transport);

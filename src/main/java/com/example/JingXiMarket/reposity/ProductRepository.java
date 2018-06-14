@@ -12,11 +12,11 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
 //模糊查询
-@Query(value = "select * from Product where name like %?1% and description like %?2%",nativeQuery = true)
-List<Product> findByNameAndDescriptionLike(String name, String description);
-    //新增
-    Product findByProductName(String name);
+@Query(value = "select * from Product where productName like %?1% and description like %?2%",nativeQuery = true)
+List<Product> findByNameAndDescriptionLike(String productName, String description);
 
+    Product findByProductName(String name);
+    Product findById(long id);
 
 
 }

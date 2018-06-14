@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface ExpressRepository extends JpaRepository<Express,Long> {
     //查询
 //    Express findById(Long Id );
-    @Modifying
-    @Query("update Express set ExpressHalfway = : ExpressHalfway where Id = :Id")
-    int mod(@PathVariable ExpressHalfway expressHalfway,@PathVariable long id);
+//    @Modifying
+//    @Query("update Express set halfway = : halfway where Id = :Id")
+//    int mod(@PathVariable ExpressHalfway expressHalfway,@PathVariable long id);
 
 
 }

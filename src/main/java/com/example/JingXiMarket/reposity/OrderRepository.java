@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -18,11 +19,13 @@ public interface OrderRepository extends JpaRepository<Orders,Long> ,CrudReposit
     List<Orders> findByBuyer(String buyer);
     //支付订单
     //撤销订单
+    @Transactional
     @Modifying
-    @Query("update Orders  set status = :status  where Id = :Id")
+    @Query("update Orders  set status =:status  where Id =:Id")
     int modifyById(@Param("status")String status,@Param("Id")Long Id);
      //search
-    Orders findByProductId(long productId);
+    Orders findByProductId(Long productId);
+    Orders findByExpressId(Long expressId);
 
 
 

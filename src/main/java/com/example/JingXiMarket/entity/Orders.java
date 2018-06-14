@@ -2,6 +2,7 @@ package com.example.JingXiMarket.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.security.Timestamp;
 import java.util.Date;
@@ -9,7 +10,7 @@ import java.util.Date;
 @Entity
 public class Orders {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY )
     private Long Id;
     private Long productId;
     private String productName;
@@ -24,14 +25,14 @@ public class Orders {
     private Date finishTime;
 
     private String address;
+    private Long expressId;
 
 
-
-    private Express express;
+//    private Express express;
     public Orders(){
 
     }
-    public Orders(Long id, Long productId, String productName, Long quantity, Long totalPrice, String status, String buyer, Date  createTime, Date  payTime, Date  cancelTime, Date  finishTime, String address,Express express) {
+    public Orders(Long id, Long productId, String productName, Long quantity, Long totalPrice, String status, String buyer, Date  createTime, Date  payTime, Date  cancelTime, Date  finishTime, String address,Long expressId) {
         this.Id = id;
         this.productId = productId;
         this.productName = productName;
@@ -44,7 +45,7 @@ public class Orders {
         this.cancelTime = cancelTime;
         this.finishTime = finishTime;
         this.address = address;
-        this.express = express;
+//        this.express = express;
     }
 
     public Long getId() {
@@ -139,14 +140,20 @@ public class Orders {
     public void setAddress(String address) {
         this.address = address;
     }
-    public Express getExpress() {
-        return express;
-    }
+//    public Express getExpress() {
+//        return express;
+//    }
+//
+//    public void setExpress(Express express) {
+//        this.express = express;
+//    }
+public Long getExpressId() {
+    return expressId;
+}
 
-    public void setExpress(Express express) {
-        this.express = express;
+    public void setExpressId(Long expressId) {
+        this.expressId = expressId;
     }
-
 
 
 }

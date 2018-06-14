@@ -8,8 +8,9 @@ import java.util.List;
 public class Express {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     private Long productId;
+    private Long orderId;
     private String productName;
     private Long quantity;
     @Transient
@@ -22,9 +23,10 @@ public class Express {
 //    @JoinColumn(name = "id")
 //    private Orders order;
 
-    public Express(Long id,Long productId, String productName,Long quantity, List<ExpressHalfway> halfway, String status, String buyer,String courier) {
-        this.Id =id;
+    public Express(Long id,Long productId,Long orderId, String productName,Long quantity, List<ExpressHalfway> halfway, String status, String buyer,String courier) {
+        this.id =id;
         this.productId = productId;
+        this.orderId = orderId;
         this.productName = productName;
         this.quantity = quantity;
         this.halfway = halfway;
@@ -35,11 +37,11 @@ public class Express {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        id = id;
     }
 
     public Long getProductId() {
@@ -48,6 +50,13 @@ public class Express {
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public String getProductName() {

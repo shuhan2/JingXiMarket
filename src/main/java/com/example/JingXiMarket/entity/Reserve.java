@@ -36,11 +36,11 @@ public class Reserve {
     }
 
     public Long getProductId() {
-        return id;
+        return productId;
     }
 
-    public void setProductId(Long id) {
-        this.id = id;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {

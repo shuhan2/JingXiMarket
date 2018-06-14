@@ -25,27 +25,19 @@ public class OrderControl {
         return orderService.getOrderListByBuyer(buyer);
     }
     //create orders
-    @PostMapping()
-    Orders createOrder(@PathVariable("buyer")String buyer,@PathVariable("productId")long productId,@PathVariable("quantity")long quantity) throws OrderCreateEx {
+    @PostMapping
+    Orders createOrder(@RequestParam(value = "buyer", required =false)String buyer,@RequestParam(value = "productId", required =false)long productId,@RequestParam(value = "quantity", required =false)long quantity) throws OrderCreateEx {
         if (quantity < 0){
             throw new OrderCreateEx("quantity can't less than 0");
         }
         return orderService.createOrder(buyer,productId,quantity);
     }
 
-    @PutMapping(value = "{id}/paid")
+    @PutMapping
     //pay order
-    String paidOrder(@PathVariable long id){
-        return orderService.paidOrder(id);
+    String paidOrder(@RequestParam(value = "Id", required =false) long id,@RequestParam(value = "status", required =false)String status){
+        return orderService.updateOrderStatus(id,status);
     }
-    //finish order
-    @PutMapping(value = "{id}/finish")
-    String finishOrder(@PathVariable long id){
-        return orderService.finishOrder(id);
-    }
-    @PutMapping(value = "{id}/undo")
-    String undoOrder(@PathVariable long id){
-        return orderService.undoOrder(id);
-    }
+
 }
 
